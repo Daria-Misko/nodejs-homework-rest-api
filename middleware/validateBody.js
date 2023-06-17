@@ -15,4 +15,11 @@ const validateBody = (schema) => {
 	return func;
 };
 
-module.exports = validateBody;
+const validateFavoriteField = (req, res, next) => {
+	if (!req.body || req.body.favorite === undefined) {
+		throw HttpError(400, "missing field favorite");
+	}
+	next();
+};
+
+module.exports = { validateBody, validateFavoriteField };

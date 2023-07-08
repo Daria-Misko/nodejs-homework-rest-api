@@ -9,6 +9,8 @@ const {
 	logout,
 	updateSubscription,
 	updateAvatar,
+	verifyEmail,
+	resendVerifyEmail,
 } = require("../../controllers/auth");
 const { authenticate } = require("../../middleware/authenticate");
 
@@ -17,6 +19,14 @@ const router = express.Router();
 // singup
 
 router.post("/register", validateBody(schemas.registerSchema), register);
+
+router.post(
+	"/verify",
+	validateBody(schemas.verifyEmailSchema),
+	resendVerifyEmail
+);
+
+router.get("/verify/:verificationToken", verifyEmail);
 
 router.post("/login", validateBody(schemas.loginSchema), login);
 
@@ -32,5 +42,7 @@ router.patch(
 );
 
 router.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
+
+router.get("/verify/:verificationToken", verifyEmail);
 
 module.exports = router;
